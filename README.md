@@ -1,6 +1,9 @@
-# Internet Archive's Wayback Machine
+# Wayback
 
-[Internet Archive's](https://archive.org/) Wayback Machine straightforward interface for Crystal.
+The [Internet Archive](https://archive.org/)'s **⏳Wayback Machine** interface for Crystal.
+
+[![CI](https://github.com/kandayo/wayback.cr/actions/workflows/ci.yml/badge.svg)](https://github.com/kandayo/wayback.cr/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/release/kandayo/wayback.cr.svg?label=Release)](https://github.com/kandayo/wayback.cr/releases)
 
 ## Installation
 
