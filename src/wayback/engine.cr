@@ -1,5 +1,4 @@
 require "./api"
-require "csv"
 
 module Wayback
   class Engine
@@ -15,19 +14,19 @@ module Wayback
       query = query.to(to) if to
       query = query.earliest(earliest) if earliest
       query = query.latest(latest) if latest
-      @api.perform(query)
+      perform(query)
     end
 
     def latest_snapshot(url : String) : Snapshot?
       query = Wayback::Query.url(url).latest(1)
-      collection = @api.perform(query)
-      collection.first?
+      snapshots = perform(query)
+      snapshots.first?
     end
 
     def first_snapshot(url : String) : Snapshot?
       query = Wayback::Query.url(url).earliest(1)
-      collection = @api.perform(query)
-      collection.first?
+      snapshots = perform(query)
+      snapshots.first?
     end
 
     def perform(query : Wayback::Query) : Array(Snapshot)
