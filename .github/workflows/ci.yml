@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        crystal: [1.0.0, 1.1.1, 1.2.2, latest, nightly]
+        crystal: [1.1.1, 1.2.2, latest, nightly]
     steps:
       - uses: actions/checkout@v2
       - uses: oprypin/install-crystal@v1
