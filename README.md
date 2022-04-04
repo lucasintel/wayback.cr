@@ -19,35 +19,44 @@ The [Internet Archive](https://archive.org/)'s **⏳Wayback Machine** interface 
 
 ## Usage
 
-#### Find the latest snapshot of a given page
+#### Retrieve the latest snapshot for a given page
 
 ```crystal
 Wayback.latest_snapshot("https://ria.ru")
 ```
 
-### Find snapshots of a a given page by date range
+#### Retrieve snapshots for a given page by a date range
 
 ```crystal
 Wayback.snapshots("https://ria.ru", from: 1.month.ago, to: Time.local)
 ```
 
-### Find the latest 10 snapshots under a given path
+#### Retrieve the latest 10 snapshots under a given path
 
 ```crystal
 Wayback.snapshots("https://ria.ru/*", latest: 10)
 ```
 
-#### Find the first snapshot of a given page
+#### Retrieve the first snapshot for a given page
 
 ```crystal
 Wayback.first_snapshot("https://ria.ru")
 ```
 
-## Advanced queries
+## Advanced usage
+
+The library provides a straightforward interface for complex queries as well.
 
 ```crystal
-query = Wayback::Query.url("https://ria.ru/*").from(1.month.ago).mime_type(/image\/*./).status_not(404).latest(10)
+Wayback::Query.url("https://ria.ru/*")
+  .from(1.year.ago)
+  .to(Time.local)
+  .mime_type(/image\/*./)
+  .status_not(404)
+  .latest(10)
+```
 
+```crystal
 Wayback.perform(query)
 ```
 
