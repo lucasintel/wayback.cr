@@ -50,5 +50,14 @@ describe Wayback::Protocol::SnapshotsParser do
       result[0].url.should eq("https://web.archive.org/web/20220403124505/https://ria.ru/")
       result[0].aggregate_count.should eq(100)
     end
+
+    it "parses snapshots with empty http status code" do
+      io = IO::Memory.new <<-CSV
+      ru,ria)/ 20220403124505 https://ria.ru/ text/html - LZAPGECMHK3WNJPP7YKP4AP4WWEOPIA3 30331 100
+      CSV
+      result = Wayback::Protocol::SnapshotsParser.call(io)
+      result.size.should eq(1)
+      result[0].status.should be_nil
+    end
   end
 end

@@ -21,7 +21,10 @@ module Wayback
         snapshots = [] of Snapshot
         CSV.each_row(io, separator: CDX_OUTPUT_SERPARATOR) do |line|
           time = Utils.parse_timestamp(line[TIMESTAMP])
-          status = HTTP::Status.from_value(line[STATUSCODE].to_i)
+          status = nil
+          if status_code = line[STATUSCODE].to_i?
+            status = HTTP::Status.from_value?(status_code)
+          end
           url = "#{WAYBACK_MACHINE_BASE_URL}/#{line[TIMESTAMP]}/#{line[ORIGINAL]}"
           aggregate_count = line[AGGREGATE_COUNT]?.try(&.to_i) || 0
           snapshots << Snapshot.new(
