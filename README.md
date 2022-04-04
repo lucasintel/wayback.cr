@@ -99,7 +99,7 @@ Wayback.execute(params)
 ## References
 
 - [Wayback Machine CDX-Server API](https://github.com/internetarchive/wayback/blob/master/wayback-cdx-server/README.md)
-- [A Sustainable, Large-Scale, Minimal Approach to Accessing Web Archives](https://web.archive.org/web/20220116031116/https://archive-it.org/blog/post/a-sustainable-large-scale-minimal-approach-to-accessing-web-archives/) (Greg Wiedeman, Archivist at the University At Albany)
+- [A Sustainable, Large-Scale, Minimal Approach to Accessing Web Archives](https://web.archive.org/web/20220116031116/https://archive-it.org/blog/post/a-sustainable-large-scale-minimal-approach-to-accessing-web-archives/) (Greg Wiedeman, archivist at the University At Albany)
 - [Wayback Machine APIs](https://archive.org/help/wayback_api.php)
 - [The CDX File Format](https://archive.org/web/researcher/cdx_file_format.php)
 
