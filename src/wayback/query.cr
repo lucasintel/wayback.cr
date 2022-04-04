@@ -3,6 +3,13 @@ require "./utils"
 
 module Wayback
   struct Query
+    ID          = "urlkey"
+    TIMESTAMP   = "timestamp"
+    URL         = "original"
+    MIMETYPE    = "mimetype"
+    STATUS_CODE = "statuscode"
+    DIGEST      = "digest"
+
     @limit : Int32?
     @offset : Int32?
     @from : Time?
@@ -18,6 +25,8 @@ module Wayback
       @from = nil
       @to = nil
       @filters = URI::Params.new
+      @collapse = {} of String => Int32?
+      @with_aggregate_count = false
     end
 
     def latest(count : Int32) : Query
@@ -51,27 +60,80 @@ module Wayback
     end
 
     def status_code(code : Int32 | Regex) : Query
-      add_filter("statuscode", code)
+      add_filter(STATUS_CODE, code)
     end
 
     def status_code_not(code : Int32 | Regex) : Query
-      add_not_filter("statuscode", code)
+      add_not_filter(STATUS_CODE, code)
     end
 
     def mimetype(mime : String | Regex) : Query
-      add_filter("mimetype", mime)
+      add_filter(MIMETYPE, mime)
     end
 
     def mimetype_not(mime : String | Regex) : Query
-      add_not_filter("mimetype", mime)
+      add_not_filter(MIMETYPE, mime)
     end
 
     def digest(digest : String | Regex) : Query
-      add_filter("digest", digest)
+      add_filter(DIGEST, digest)
     end
 
     def digest_not(digest : String | Regex) : Query
-      add_not_filter("digest", digest)
+      add_not_filter(DIGEST, digest)
+    end
+
+    def group_by_id(*, position : Int32? = nil) : Query
+      collapse(ID, position)
+    end
+
+    def group_by_decade : Query
+      collapse(TIMESTAMP, 2)
+    end
+
+    def group_by_year : Query
+      collapse(TIMESTAMP, 4)
+    end
+
+    def group_by_month : Query
+      collapse(TIMESTAMP, 6)
+    end
+
+    def group_by_day : Query
+      collapse(TIMESTAMP, 8)
+    end
+
+    def group_by_hour : Query
+      collapse(TIMESTAMP, 10)
+    end
+
+    def group_by_minute : Query
+      collapse(TIMESTAMP, 12)
+    end
+
+    def group_by_second : Query
+      collapse(TIMESTAMP, 14)
+    end
+
+    def group_by_url(*, position : Int32? = nil) : Query
+      collapse(URL, position)
+    end
+
+    def group_by_mimetype(*, position : Int32? = nil) : Query
+      collapse(MIMETYPE, position)
+    end
+
+    def group_by_status_code(*, position : Int32? = nil) : Query
+      collapse(STATUS_CODE, position)
+    end
+
+    def group_by_digest(*, position : Int32? = nil) : Query
+      collapse(DIGEST, position)
+    end
+
+    def with_aggregate_count : Query
+      @with_aggregate_count = true
+      self
     end
 
     def clear : Query
@@ -89,6 +151,11 @@ module Wayback
         @filters.each do |field, pattern|
           params.add("filter", "#{field}:#{pattern}")
         end
+        @collapse.each do |field, precision|
+          value = precision ? "#{field}:#{precision}" : field
+          params.add("collapse", value)
+        end
+        params.add("showGroupCount", "true") if @with_aggregate_count
         if from = @from
           params.add("from", Utils.to_timestamp(from))
         end
@@ -105,13 +172,18 @@ module Wayback
       end
     end
 
-    private def add_not_filter(filter : String, value) : Query
-      not_filter = "!#{filter}"
-      add_filter(not_filter, value)
+    private def add_not_filter(field : String, value) : Query
+      not_field = "!#{field}"
+      add_filter(not_field, value)
     end
 
-    private def add_filter(filter : String, value) : Query
-      @filters.add(filter, parse_value(value))
+    private def add_filter(field : String, value) : Query
+      @filters.add(field, parse_value(value))
+      self
+    end
+
+    private def collapse(field : String, precision : Int32? = nil) : Query
+      @collapse[field] = precision
       self
     end
 

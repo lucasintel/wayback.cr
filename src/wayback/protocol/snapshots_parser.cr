@@ -8,13 +8,14 @@ module Wayback
 
       CDX_OUTPUT_SERPARATOR = ' '
 
-      URLKEY     = 0
-      TIMESTAMP  = 1
-      ORIGINAL   = 2
-      MIMETYPE   = 3
-      STATUSCODE = 4
-      DIGEST     = 5
-      LENGTH     = 6
+      URLKEY          = 0
+      TIMESTAMP       = 1
+      ORIGINAL        = 2
+      MIMETYPE        = 3
+      STATUSCODE      = 4
+      DIGEST          = 5
+      LENGTH          = 6
+      AGGREGATE_COUNT = 7
 
       def self.call(io : IO) : Array(Snapshot)
         snapshots = [] of Snapshot
@@ -22,6 +23,7 @@ module Wayback
           time = Utils.parse_timestamp(line[TIMESTAMP])
           status = HTTP::Status.from_value(line[STATUSCODE].to_i)
           url = "#{WAYBACK_MACHINE_BASE_URL}/#{line[TIMESTAMP]}/#{line[ORIGINAL]}"
+          aggregate_count = line[AGGREGATE_COUNT]?.try(&.to_i) || 0
           snapshots << Snapshot.new(
             id: line[URLKEY],
             resource: line[ORIGINAL],
@@ -30,7 +32,8 @@ module Wayback
             mimetype: line[MIMETYPE],
             content_length: line[LENGTH].to_u64,
             digest: line[DIGEST],
-            url: url
+            url: url,
+            aggregate_count: aggregate_count,
           )
         end
         snapshots
