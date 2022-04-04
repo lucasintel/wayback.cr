@@ -7,7 +7,6 @@ module Wayback
     @offset : Int32?
     @from : Time?
     @to : Time?
-    @filters : Hash(String, String)
 
     def self.url(url : String) : Query
       new(url: url)
@@ -18,7 +17,7 @@ module Wayback
       @offset = nil
       @from = nil
       @to = nil
-      @filters = {} of String => String
+      @filters = URI::Params.new
     end
 
     def latest(count : Int32) : Query
@@ -78,7 +77,9 @@ module Wayback
     def clear : Query
       @from = nil
       @to = nil
-      @filters.clear
+      @filters.each do |field, _pattern|
+        @filters.delete_all(field)
+      end
       self
     end
 
@@ -110,7 +111,7 @@ module Wayback
     end
 
     private def add_filter(filter : String, value) : Query
-      @filters[filter] = parse_value(value)
+      @filters.add(filter, parse_value(value))
       self
     end
 

@@ -49,19 +49,34 @@ describe Wayback::Query do
     query.to_query_string.should eq("url=ria.ru&limit=10")
   end
 
+  it "applies offset" do
+    query = Wayback::Query.url("ria.ru").offset(10)
+    query.to_query_string.should eq("url=ria.ru&offset=10")
+  end
+
   it "applies filters" do
     query = Wayback::Query
       .url("ria.ru")
       .status_code(200)
+      .status_code(300)
       .mimetype_not("text/html")
       .from(Time.utc(2022, 4, 1, 10, 10, 10))
       .to(Time.utc(2022, 5, 1))
       .limit(10)
-    query.to_query_string.should eq("url=ria.ru&filter=statuscode%3A200&filter=%21mimetype%3Atext%2Fhtml&from=20220401101010&to=20220501000000&limit=10")
+    query.to_query_string.should eq("url=ria.ru&filter=statuscode%3A200&filter=statuscode%3A300&filter=%21mimetype%3Atext%2Fhtml&from=20220401101010&to=20220501000000&limit=10")
   end
 
-  it "applies offset" do
-    query = Wayback::Query.url("ria.ru").offset(10)
-    query.to_query_string.should eq("url=ria.ru&offset=10")
+  it "resets the query" do
+    query = Wayback::Query
+      .url("ria.ru")
+      .status_code(200)
+      .status_code(300)
+      .mimetype_not("text/html")
+      .from(Time.utc(2022, 4, 1, 10, 10, 10))
+      .to(Time.utc(2022, 5, 1))
+      .limit(10)
+      .clear
+      .limit(5)
+    query.to_query_string.should eq("url=ria.ru&limit=5")
   end
 end
