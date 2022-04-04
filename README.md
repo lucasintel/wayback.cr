@@ -87,7 +87,7 @@ snapshots.first.aggregate_count
 
 ### Low level API
 
-```
+```crystal
 params = {
   "url"      => "https://kyivindependent.com/",
   "filter"   => "!status:404",
