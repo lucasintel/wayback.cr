@@ -22,25 +22,25 @@ The [Internet Archive](https://archive.org/)'s **⏳Wayback Machine** interface 
 #### Retrieve the latest snapshot for a given page
 
 ```crystal
-Wayback.latest_snapshot("https://ria.ru")
+Wayback.latest_snapshot("https://ukraine.ua")
 ```
 
 #### Retrieve snapshots for a given page by a date range
 
 ```crystal
-Wayback.snapshots("https://ria.ru", from: 1.month.ago, to: Time.local)
+Wayback.snapshots("https://ukraine.ua", from: 1.month.ago, to: Time.local)
 ```
 
 #### Retrieve the latest 10 snapshots under a given path
 
 ```crystal
-Wayback.snapshots("https://ria.ru/*", latest: 10)
+Wayback.snapshots("https://ukraine.ua/*", latest: 10)
 ```
 
 #### Retrieve the first snapshot for a given page
 
 ```crystal
-Wayback.first_snapshot("https://ria.ru")
+Wayback.first_snapshot("https://ukraine.ua")
 ```
 
 ## Advanced usage
@@ -48,7 +48,7 @@ Wayback.first_snapshot("https://ria.ru")
 The library provides a straightforward interface for complex queries as well.
 
 ```crystal
-Wayback::Query.url("https://ria.ru/*")
+Wayback::Query.url("https://ukraine.ua/*")
   .from(1.year.ago)
   .to(Time.local)
   .mime_type(/image\/*./)
