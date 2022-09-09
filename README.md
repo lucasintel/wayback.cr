@@ -2,8 +2,8 @@
 
 The [Internet Archive](https://archive.org/)'s **⏳Wayback Machine** interface for Crystal.
 
-[![CI](https://github.com/kandayo/wayback.cr/actions/workflows/ci.yml/badge.svg)](https://github.com/kandayo/wayback.cr/actions/workflows/ci.yml)
-[![GitHub release](https://img.shields.io/github/release/kandayo/wayback.cr.svg?label=Release)](https://github.com/kandayo/wayback.cr/releases)
+[![CI](https://github.com/lucasintel/wayback.cr/actions/workflows/ci.yml/badge.svg)](https://github.com/lucasintel/wayback.cr/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/release/lucasintel/wayback.cr.svg?label=Release)](https://github.com/lucasintel/wayback.cr/releases)
 
 ## Installation
 
@@ -12,7 +12,7 @@ The [Internet Archive](https://archive.org/)'s **⏳Wayback Machine** interface 
    ```yaml
    dependencies:
      wayback:
-       github: kandayo/wayback.cr
+       github: lucasintel/wayback.cr
    ```
 
 2. Run `shards install`
@@ -22,25 +22,25 @@ The [Internet Archive](https://archive.org/)'s **⏳Wayback Machine** interface 
 #### Retrieve the latest snapshot for a given page
 
 ```crystal
-Wayback.latest_snapshot("https://ukraine.ua/")
+Wayback.latest_snapshot("https://kyivindependent.com/")
 ```
 
 #### Retrieve snapshots for a given page by a date range
 
 ```crystal
-Wayback.snapshots("https://ukraine.ua/", from: 1.month.ago, to: Time.local)
+Wayback.snapshots("https://kyivindependent.com/", from: 1.month.ago, to: Time.local)
 ```
 
 #### Retrieve the latest 10 snapshots under a given path
 
 ```crystal
-Wayback.snapshots("https://ukraine.ua/*", latest: 10)
+Wayback.snapshots("https://kyivindependent.com/*", latest: 10)
 ```
 
 #### Retrieve the first snapshot for a given page
 
 ```crystal
-Wayback.first_snapshot("https://ukraine.ua/")
+Wayback.first_snapshot("https://kyivindependent.com/")
 ```
 
 ## Advanced usage
@@ -48,7 +48,7 @@ Wayback.first_snapshot("https://ukraine.ua/")
 The library provides a straightforward interface for building complex queries as well.
 
 ```crystal
-Wayback::Query.url("https://ukraine.ua/*")
+Wayback::Query.url("https://kyivindependent.com/*")
   .from(1.year.ago)
   .to(Time.local)
   .mime_type(/image\/*./)
@@ -105,7 +105,7 @@ Wayback.execute(params)
 
 ## Contributing
 
-1. Fork it (<https://github.com/kandayo/wayback.cr/fork>)
+1. Fork it (<https://github.com/lucasintel/wayback.cr/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -113,4 +113,4 @@ Wayback.execute(params)
 
 ## Contributors
 
-- [Lucas M. D.](https://github.com/kandayo) - creator and maintainer
+- [Lucas](https://github.com/lucasintel) - creator and maintainer
